@@ -91,6 +91,12 @@ module Jekyll
     end
   end
 
+  module Filters
+    def translated_date(date, key)
+      date.strftime(Jekyll.lookup_translation(@context.registers[:site], key))
+    end
+  end
+
   module Tags
     class LocalizeInclude < IncludeTag
       def render(context)
