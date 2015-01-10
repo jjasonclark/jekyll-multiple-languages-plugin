@@ -6,5 +6,7 @@ global:
   about: Riquardo
   twitter: Twitter
   github: GitHub
+  date: '%Y年%d月%m号'
+  other: blah.html
 pages:
   example: Esempio

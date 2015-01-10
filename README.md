@@ -115,6 +115,8 @@ To add a string to your site use one of these
 {% t key %}
 or
 {% translate key %}
+or
+{{ <date> | translated_date: "key" }}
 ```
 
 Liquid tags. This will pick the correct string from the `language.yml` file during compilation.

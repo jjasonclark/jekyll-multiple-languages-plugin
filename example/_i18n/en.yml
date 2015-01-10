@@ -6,5 +6,7 @@ global:
   about: About
   twitter: Twitter
   github: GitHub
+  date: '%m/%d/%Y'
+  other: about.html
 pages:
   example: example
