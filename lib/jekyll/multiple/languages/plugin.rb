@@ -22,6 +22,18 @@ module Jekyll
     translation
   end
 
+  class Page
+    alias :read_yaml_org :read_yaml
+    def read_yaml(base, name, opts = {})
+      read_yaml_org(base, name, opts)
+      if data['translated_name']
+        translation = Jekyll.lookup_translation(site, data['translated_name'])
+        self.ext = File.extname(translation)
+        self.basename = translation[0 .. -ext.length - 1]
+      end
+    end
+  end
+
   class Site
     alias :process_org :process
     def process
