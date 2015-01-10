@@ -1,6 +1,6 @@
 name: Flex
 markdown: redcarpet
-pygments: true
+highlighter: pygments
 
 baseurl: ""
 
