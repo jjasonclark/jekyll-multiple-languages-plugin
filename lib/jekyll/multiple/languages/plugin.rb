@@ -35,17 +35,13 @@ module Jekyll
       dest_org = self.dest
 
       #Loop
-      self.config['lang'] = self.config['default_lang'] = languages.first
-      puts
-      puts "Building site for default language: \"#{self.config['lang']}\" to: #{self.dest}"
-      process_org
-      languages.drop(1).each do |lang|
+      languages.each do |lang|
 
         # Build site for language lang
         @dest = @dest + "/" + lang
         self.config['baseurl'] = self.config['baseurl'] + "/" + lang
         self.config['lang'] = lang
-        puts "Building site for language: \"#{self.config['lang']}\" to: #{self.dest}"
+        Jekyll.logger.info "Building site for language: \"#{self.config['lang']}\" to: #{self.dest}"
         process_org
 
         #Reset variables for next language
@@ -53,7 +49,7 @@ module Jekyll
         self.config['baseurl'] = baseurl_org
       end
       Jekyll.setlangs({})
-      puts 'Build complete'
+      Jekyll.logger.info 'Build complete'
     end
 
     alias :read_posts_org :read_posts
