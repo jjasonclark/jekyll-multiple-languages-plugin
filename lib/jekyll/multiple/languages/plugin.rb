@@ -8,6 +8,20 @@ module Jekyll
   def self.setlangs(l)
     @parsedlangs = l
   end
+
+  def self.lookup_translation(site, key)
+    lang = site.config['lang']
+    unless Jekyll.langs.has_key?(lang)
+      Jekyll.logger.warn "Loading translation from file #{site.source}/_i18n/#{lang}.yml"
+      Jekyll.langs[lang] = YAML.load_file("#{site.source}/_i18n/#{lang}.yml")
+    end
+    translation = Jekyll.langs[lang].access(key) if key.is_a?(String)
+    if translation.nil? || translation.empty?
+      Jekyll.logger.abort_with "Missing i18n key: #{lang}:#{key}"
+    end
+    translation
+  end
+
   class Site
     alias :process_org :process
     def process
@@ -65,18 +79,7 @@ module Jekyll
       else
         key = @key
       end
-      lang = context.registers[:site].config['lang']
-      unless Jekyll.langs.has_key?(lang)
-        puts "Loading translation from file #{context.registers[:site].source}/_i18n/#{lang}.yml"
-        Jekyll.langs[lang] = YAML.load_file("#{context.registers[:site].source}/_i18n/#{lang}.yml")
-      end
-      translation = Jekyll.langs[lang].access(key) if key.is_a?(String)
-      if translation.nil? or translation.empty?
-        translation = Jekyll.langs[context.registers[:site].config['default_lang']].access(key)
-        puts "Missing i18n key: #{lang}:#{key}"
-        puts "Using translation '%s' from default language: %s" %[translation, context.registers[:site].config['default_lang']]
-      end
-      translation
+      Jekyll.lookup_translation(context.registers[:site], key)
     end
   end
 
