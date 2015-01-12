@@ -1,0 +1,19 @@
+---
+layout:
+---
+<ul>
+{% for item in site.menu %}
+  {% if item.size > 2 %}
+    <li class="dropdown">
+      {{ item.name }}
+      <ul>
+        {% for subitem in item %}{% if subitem[0] != 'name' %}
+        <li><a href="{{ subitem[1].url }}">{{ subitem[1].name }}</a></li>
+        {% endif %}{% endfor %}
+      </ul>
+    </li>
+  {% else %}
+    <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+  {% endif %}
+{% endfor %}
+</ul>

@@ -5,3 +5,14 @@ highlighter: pygments
 baseurl: ""
 
 languages: ["it", "en", "es"]
+
+menu:
+  - name: Hello
+    other:
+      name: Nested
+      url: /world/nested
+    more:
+      name: More
+      url: /world/more
+  - name: About
+    url: /about
