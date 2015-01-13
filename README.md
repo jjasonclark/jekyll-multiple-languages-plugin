@@ -117,6 +117,8 @@ or
 {% translate key %}
 or
 {{ <date> | translated_date: "key" }}
+or
+{% translate_menu "menu" %}
 ```
 
 Liquid tags. This will pick the correct string from the `language.yml` file during compilation.
