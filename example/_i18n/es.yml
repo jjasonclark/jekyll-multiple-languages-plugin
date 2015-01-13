@@ -7,6 +7,8 @@ global:
   twitter: Twitter
   github: GitHub
   date: '%Y/%m/%d'
-  other: blahblah.html
 pages:
   example: Ejemplo
+files:
+  index: es-index.html
+  about: es-about.html

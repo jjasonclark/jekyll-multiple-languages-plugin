@@ -10,3 +10,6 @@ global:
   other: blah.html
 pages:
   example: Esempio
+files:
+  index: it-index.html
+  about: it-about.html

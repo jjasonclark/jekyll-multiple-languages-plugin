@@ -10,3 +10,6 @@ global:
   other: about.html
 pages:
   example: example
+files:
+  index: index.html
+  about: about.html
