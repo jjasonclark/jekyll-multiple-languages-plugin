@@ -91,6 +91,50 @@ module Jekyll
     end
   end
 
+  class LocalizeMenu < Liquid::Tag
+    def initialize(tag_name, key, tokens)
+      super
+      @key = key.strip
+    end
+
+    def create_link(item)
+      "<li><a href=\"#{item['url']}\">#{item['text']}</a></li>"
+    end
+
+    def create_nested_menu(menu)
+      ['<li class="dropdown">',
+       menu['name'],
+       '<ul>',
+       menu.map { |subitem| create_link(subitem[1]) if subitem[0] != 'name' },
+       '</ul>',
+       '</li>'
+      ].flatten.compact.join("\n")
+    end
+
+    def create_menu(config_data)
+      Array(config_data).map do |menu|
+        if menu.size > 2
+          create_nested_menu(menu)
+        else
+          create_link(menu)
+        end
+      end
+    end
+
+    def render(context)
+      if "#{context[@key]}" != '' # Check for page variable
+        key = "#{context[@key]}"
+      else
+        key = @key
+      end
+      translation = Jekyll.lookup_translation(context.registers[:site], key)
+      ['<ul>',
+       create_menu(translation),
+       '</ul>'
+      ].join("\n")
+    end
+  end
+
   module Filters
     def translated_date(date, key)
       date.strftime(Jekyll.lookup_translation(@context.registers[:site], key))
@@ -162,3 +206,4 @@ Liquid::Template.register_tag('t', Jekyll::LocalizeTag)
 Liquid::Template.register_tag('translate', Jekyll::LocalizeTag)
 Liquid::Template.register_tag('tf', Jekyll::Tags::LocalizeInclude)
 Liquid::Template.register_tag('translate_file', Jekyll::Tags::LocalizeInclude)
+Liquid::Template.register_tag('translate_menu', Jekyll::LocalizeMenu)
